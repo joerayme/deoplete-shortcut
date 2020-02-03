@@ -33,18 +33,15 @@ class Source(Base):
             'query': self._query
         }
 
-        print(payload)
-
         c = http.client.HTTPSConnection('api.clubhouse.io')
         c.request('GET', '/api/v3/search/stories?token={}'.format(self._token), body=json.dumps(payload), headers={'Content-Type': 'application/json'})
 
         # try:
         response = c.getresponse()
         if response.status != 200:
-            print(dir(response))
-            return
+            return []
+
         result = json.loads(response.read().decode('utf-8'))
-        print(result)
 
         words = [{'word': 'ch{}'.format(ticket['id']),
                   'menu': ticket['name']} for ticket in result['data']]
