@@ -46,5 +46,6 @@ class Source(Base):
         result = json.loads(response.read().decode('utf-8'))
         print(result)
 
-        return [{'word': '[ch{}]'.format(ticket['id']),
-                 'menu': ticket['name']} for ticket in result['data']]
+        words = [{'word': 'ch{}'.format(ticket['id']),
+                  'menu': ticket['name']} for ticket in result['data']]
+        return words
