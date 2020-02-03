@@ -14,7 +14,6 @@ class Source(Base):
         self.description = 'Clubhouse ticket numbers'
         self.mark = '[ch]'
         self.filetypes = ['gitcommit']
-        self.input_pattern = r'\[ch'
         self._token = None
         self._query = None
 
@@ -37,7 +36,7 @@ class Source(Base):
         print(payload)
 
         c = http.client.HTTPSConnection('api.clubhouse.io')
-        c.request('GET', '/api/v3/search/stories?token={}'.format(self._token), body=json.dumps(payload), headers={'Accept': 'application/json'})
+        c.request('GET', '/api/v3/search/stories?token={}'.format(self._token), body=json.dumps(payload), headers={'Content-Type': 'application/json'})
 
         # try:
         response = c.getresponse()
