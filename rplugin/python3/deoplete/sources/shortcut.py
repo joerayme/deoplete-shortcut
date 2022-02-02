@@ -10,16 +10,16 @@ class Source(Base):
         Base.__init__(self, vim)
 
         self.rank = 100
-        self.name = 'clubhouse'
-        self.description = 'Clubhouse ticket numbers'
-        self.mark = '[ch]'
+        self.name = 'shortcut'
+        self.description = 'Shortcut ticket numbers'
+        self.mark = '[sc]'
         self.filetypes = ['gitcommit']
         self._token = None
         self._query = None
 
     def on_init(self, context):
-        self._query = context['vars'].get('deoplete#sources#clubhouse#query', 'is:story')
-        token_file = context['vars'].get('deoplete#sources#clubhouse#apitokenfile', '{}/.clubhouse'.format(os.getenv('HOME')))
+        self._query = context['vars'].get('deoplete#sources#shortcut#query', 'is:story')
+        token_file = context['vars'].get('deoplete#sources#shortcut#apitokenfile', '{}/.shortcut'.format(os.getenv('HOME')))
         if os.path.isfile(token_file):
             with open(token_file, 'r') as fh:
                 self._token = fh.read()
@@ -33,8 +33,8 @@ class Source(Base):
             'query': self._query
         }
 
-        c = http.client.HTTPSConnection('api.clubhouse.io')
-        c.request('GET', '/api/v3/search/stories?token={}'.format(self._token), body=json.dumps(payload), headers={'Content-Type': 'application/json'})
+        c = http.client.HTTPSConnection('api.app.shortcut.com')
+        c.request('GET', '/api/v3/search/stories', body=json.dumps(payload), headers={'Content-Type': 'application/json', 'Shortcut-Token': self._token})
 
         # try:
         response = c.getresponse()
@@ -43,6 +43,6 @@ class Source(Base):
 
         result = json.loads(response.read().decode('utf-8'))
 
-        words = [{'word': 'ch{}'.format(ticket['id']),
+        words = [{'word': 'sc-{}'.format(ticket['id']),
                   'menu': ticket['name']} for ticket in result['data']]
         return words

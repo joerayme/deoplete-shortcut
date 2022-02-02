@@ -1,6 +1,6 @@
-# Deoplete Clubhouse plugin
+# Deoplete Shortcut (formerly Clubhouse) plugin
 
-Completes story numbers from Clubhouse in git commit messages
+Completes story numbers from Shortcut in git commit messages
 
 ## Configuration
 
@@ -16,4 +16,4 @@ I set mine to `'is:story owner:<my username>'`
 
 This needs to be the absolute path to a file containing your Clubhouse API token (you can find this in Settings > API Tokens)
 
-    let g:deoplete#sources#clubhouse#apitokenfile = '/Users/<username>/.clubhouse'
+    let g:deoplete#sources#shortcut#apitokenfile = '/Users/<username>/.clubhouse'
